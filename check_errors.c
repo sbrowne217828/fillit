@@ -6,7 +6,7 @@
 /*   By: gtavares <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/31 15:51:51 by gtavares          #+#    #+#             */
-/*   Updated: 2017/11/09 16:36:42 by labrown          ###   ########.fr       */
+/*   Updated: 2017/11/17 15:08:45 by labrown          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ int		is_tetri(char *str, int i, int x)
 	bd = 0;
 	while (str[i] && str[i] != '#' && x < 21)
 	{
-		if (str[i] != '.')
-			ft_found_error("error\n");
 		i++;
 		x++;
 	}
@@ -49,8 +47,10 @@ int		check_chars(char *str)
 	i = 0;
 	while (str[i] && (i % 21 != 0 || i == 0))
 	{
-		if (str[i] != 35 && str[i] != 46 && str[i] != 10)
-			return (0);
+		if (str[i] != '#' && str[i] != '.' && str[i] != '\n')
+		{
+			ft_found_error("error\n");
+		}
 		c += (str[i] == '#' ? 1 : 0);
 		if ((i % 5 == 4 || i == 20) && str[i] != '\n')
 			return (1);

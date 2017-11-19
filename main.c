@@ -6,7 +6,7 @@
 /*   By: gtavares <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/31 15:51:28 by gtavares          #+#    #+#             */
-/*   Updated: 2017/11/09 16:30:53 by labrown          ###   ########.fr       */
+/*   Updated: 2017/11/19 02:32:19 by labrown          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,24 +20,45 @@ void	ft_found_error(char *fail)
 
 void	primary_function(char *buf, int ret)
 {
-	t_fill	*begin_fill;
+	t_tetlst	*tets;
 	t_map	*map;
 
-	begin_fill = NULL;
+	tets = NULL;
 	if (ft_verif(buf) == 1)
 	{
-		begin_fill = fill_map(buf, ret);
-		find_height(begin_fill);
-		trim_tetri(begin_fill);
-		map = adjust_map(begin_fill);
+		tets = tet_lst(buf, ret);
+		find_height(tets);
+		trim_tetri(tets);
+		map = adjust_map(tets);
 		final_map(map);
-		free(buf);
 	}
 	else
 	{
 		ft_putstr("error\n");
-		free(buf);
 	}
+}
+
+void	ft_read(char *file)
+{
+	int		fd;
+	int		ret;
+	char	*buf;
+
+	if (!(buf = malloc(sizeof(char*) * 548)))
+		return ;
+	fd = open(file, O_RDONLY);
+	if (fd == -1)
+		ft_found_error("error\n");
+	ret = read(fd, buf, 547);
+	if (ret > 546)
+		ft_found_error("error\n");
+	if (buf[ret - 1] == '\n' && buf[ret - 2] == '\n')
+		ft_found_error("error\n");
+	buf[ret] = '\0';
+	if (close(fd) == -1)
+		ft_found_error("error\n");
+	primary_function(buf, ret);
+	(buf) ? free(buf) : (0);
 }
 
 int		main(int c, char **v)

@@ -6,19 +6,19 @@
 #    By: gtavares <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 12:06:04 by gtavares          #+#    #+#              #
-#    Updated: 2017/11/08 22:59:52 by labrown          ###   ########.fr        #
+#    Updated: 2017/11/19 02:08:32 by labrown          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= fillit
 SRC		= check_errors.c \
 		  main.c \
-		  reader.c \
+		  tet.c \
 		  map.c \
-		  count.c \
-		  get_coord.c \
+		  get_tet_coord.c \
 		  store_tets.c \
-		  recursive.c
+		  recursive.c \
+		  kane_alloc_wrap.c
 
 FLAGS	= -Wall -Werror -Wextra -g
 OBJ		= $(SRC:.c=.o)

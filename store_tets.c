@@ -6,7 +6,7 @@
 /*   By: gtavares <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/31 15:52:00 by gtavares          #+#    #+#             */
-/*   Updated: 2017/11/08 23:05:40 by labrown          ###   ########.fr       */
+/*   Updated: 2017/11/18 23:26:16 by labrown          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char		**trim_row(char **tetri)
 	return (tetri);
 }
 
-char		**trim_col(char **tetri, t_fill *lst)
+char		**trim_col(char **tetri, t_tetlst *lst)
 {
 	int x;
 	int y;
@@ -65,11 +65,11 @@ char		**trim_col(char **tetri, t_fill *lst)
 	return (tetri);
 }
 
-char		**trim_tetri(t_fill *lst)
+char		**trim_tetri(t_tetlst *lst)
 {
-	char **tab;
+	char **tet;
 
-	if (!(tab = (char**)malloc(sizeof(char*) * 4)))
+	if (!(tet = malloc(sizeof(char*) * 4)))
 		return (NULL);
 	while (lst)
 	{
@@ -77,5 +77,5 @@ char		**trim_tetri(t_fill *lst)
 		trim_col(lst->tetri, lst);
 		lst = lst->next;
 	}
-	return (tab);
+	return (tet);
 }

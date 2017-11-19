@@ -5,70 +5,73 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: gtavares <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/10/31 15:52:11 by gtavares          #+#    #+#             */
-/*   Updated: 2017/11/08 23:06:53 by labrown          ###   ########.fr       */
+/*   Created: 2017/10/31 15:51:06 by gtavares          #+#    #+#             */
+/*   Updated: 2017/11/19 02:33:37 by labrown          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
-char	**map(char *str)
+int		count_tet(t_tetlst *tets)
 {
-	int		i;
-	int		dim;
-	char	**tab;
+	t_tetlst	*last_tet;
 
-	if (!(tab = malloc(sizeof(char *) * (4))))
-		return (NULL);
-	dim = 0;
-	i = 0;
-	while (dim < 4)
-	{
-		if (!(tab[dim] = malloc(sizeof(char) * 5)))
-			return (NULL);
-		ft_strncpy(tab[dim], str + i, 4);
-		tab[dim][4] = '\0';
-		i += 5;
-		dim++;
-	}
-	return (tab);
+	last_tet = tets->prev;
+	return (last_tet->alpha - 64);
 }
 
-t_fill	*add_map(char *str, t_fill *init_fill, char c)
+t_map	*create_map(int size)
 {
-	if (!(init_fill = (t_fill*)malloc(sizeof(*init_fill))))
+	int		i;
+	int		j;
+	t_map	*map;
+
+	if (!(map = malloc(sizeof(t_map) * size)))
 		return (NULL);
-	init_fill->tetri = map(str);
-	init_fill->alpha = c;
-	init_fill->next = NULL;
-	return (init_fill);
+	map->size = size;
+	if (!(map->megamap = malloc(sizeof(char*) * size)))
+		return (NULL);
+	j = 0;
+	while (j < size)
+	{
+		if (map->megamap[j])
+			free(map->megamap[j]);
+		map->megamap[j] = ft_strnew(size);
+		i = 0;
+		while (i < size)
+		{
+			map->megamap[j][i] = '.';
+			i++;
+		}
+		j++;
+	}
+	return (map);
 }
 
-t_fill	*fill_map(char *str, int len)
+int		size_map(t_tetlst *lst)
 {
-	t_fill	*nx_fill;
-	t_fill	*init_fill;
-	int		i;
-	char	c;
+	int		a;
+	int		size;
 
-	i = 21;
-	c = 'A';
-	if (!(nx_fill = (t_fill*)malloc(sizeof(*nx_fill))))
-		return (NULL);
-	nx_fill->tetri = map(str);
-	nx_fill->alpha = c;
-	nx_fill->next = NULL;
-	nx_fill->prev = nx_fill;
-	init_fill = nx_fill;
-	while (i < len)
+	a = 2;
+	while ((a * a) < count_tet(lst) * 4)
+		a++;
+	size = a;
+	return (size);
+}
+
+t_map	*adjust_map(t_tetlst *tets)
+{
+	t_map	*map;
+	int		size;
+
+	map = NULL;
+	size = size_map(tets);
+	map = create_map(size);
+	while (backtrack_solve(map, tets) == 0)
 	{
-		c++;
-		init_fill->next = add_map(str + i, init_fill, c);
-		init_fill->prev = init_fill;
-		init_fill = init_fill->next;
-		i += 21;
+		size++;
+		map = create_map(size);
 	}
-	init_fill->next = NULL;
-	nx_fill->prev = init_fill;
-	return (nx_fill);
+	return (map);
 }

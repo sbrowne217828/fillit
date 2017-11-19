@@ -6,7 +6,7 @@
 /*   By: gtavares <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/31 15:52:20 by gtavares          #+#    #+#             */
-/*   Updated: 2017/11/08 23:06:21 by labrown          ###   ########.fr       */
+/*   Updated: 2017/11/18 18:55:57 by labrown          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,27 +24,28 @@ void	final_map(t_map *map)
 	}
 }
 
-int		backtrack_solve(t_map *map, t_fill *begin_fill)
+int		backtrack_solve(t_map *map, t_tetlst *lst)
 {
-	int		x;
-	int		y;
-	t_fill	*lst;
+	int			x;
+	int			y;
+	t_tetlst	*tets;
 
-	lst = begin_fill;
-	if (begin_fill == NULL)
+	
+	if (lst == NULL)
 		return (1);
 	y = 0;
-	while (y <= map->size - begin_fill->height)
+	tets = lst;
+	while (y <= map->size - tets->height)
 	{
 		x = 0;
-		while (x <= map->size - begin_fill->length)
+		while (x <= map->size - tets->length)
 		{
-			if (check_tet_fit(lst, map, x, y))
+			if (check_tet_fit(tets, map, x, y))
 			{
-				if (backtrack_solve(map, begin_fill->next))
+				if (backtrack_solve(map, tets->next))
 					return (1);
 				else
-					place_dots(lst, map, x, y);
+					place_dots(tets, map, x, y);
 			}
 			x++;
 		}
@@ -53,7 +54,7 @@ int		backtrack_solve(t_map *map, t_fill *begin_fill)
 	return (0);
 }
 
-int		check_tet_fit(t_fill *lst, t_map *map, int x, int y)
+int		check_tet_fit(t_tetlst *lst, t_map *map, int x, int y)
 {
 	int i;
 	int j;
@@ -75,7 +76,7 @@ int		check_tet_fit(t_fill *lst, t_map *map, int x, int y)
 	return (1);
 }
 
-void	place_tet(t_fill *lst, t_map *map, int x, int y)
+void	place_tet(t_tetlst *lst, t_map *map, int x, int y)
 {
 	int i;
 	int j;
@@ -94,7 +95,7 @@ void	place_tet(t_fill *lst, t_map *map, int x, int y)
 	}
 }
 
-void	place_dots(t_fill *lst, t_map *map, int x, int y)
+void	place_dots(t_tetlst *lst, t_map *map, int x, int y)
 {
 	int i;
 	int j;

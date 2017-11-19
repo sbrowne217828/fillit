@@ -6,13 +6,13 @@
 /*   By: gtavares <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/31 15:51:19 by gtavares          #+#    #+#             */
-/*   Updated: 2017/11/08 23:05:21 by labrown          ###   ########.fr       */
+/*   Updated: 2017/11/18 18:43:31 by labrown          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
-int		get_top(t_fill *l_tetri)
+int		get_top(t_tetlst *l_tetri)
 {
 	int x;
 	int y;
@@ -32,7 +32,7 @@ int		get_top(t_fill *l_tetri)
 	return (y);
 }
 
-int		get_left(t_fill *l_tetri)
+int		get_left(t_tetlst *l_tetri)
 {
 	int x;
 	int y;
@@ -53,7 +53,7 @@ int		get_left(t_fill *l_tetri)
 	return (x);
 }
 
-int		get_bottom(t_fill *l_tetri)
+int		get_bottom(t_tetlst *l_tetri)
 {
 	int x;
 	int y;
@@ -73,7 +73,7 @@ int		get_bottom(t_fill *l_tetri)
 	return (y);
 }
 
-int		get_right(t_fill *l_tetri)
+int		get_right(t_tetlst *l_tetri)
 {
 	int x;
 	int y;
@@ -93,7 +93,7 @@ int		get_right(t_fill *l_tetri)
 	return (x);
 }
 
-void	find_height(t_fill *tetri)
+void	find_height(t_tetlst *tetri)
 {
 	while (tetri)
 	{
